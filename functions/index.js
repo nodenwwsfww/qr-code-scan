@@ -1,5 +1,17 @@
 $(function() {
+    YaGames
+        .init()
+        .then(ysdk => {
+            console.log('Yandex SDK initialized');
+            window.ysdk = ysdk;
 
+            setLocale(ysdk.environment.i18n.lang);
+            console.log('Set locale', ysdk.environment.i18n.lang)
+        });
+
+/*    setTimeout(() => {
+        setLocale(window.YandexGamesSDKEnvironment.i18n.lang)
+    }, 0);*/
 
     function makeCode () {
         if ($('.qrText').val() != '') {
@@ -30,12 +42,10 @@ $(function() {
 
     $("#generate-btn").
     on("click", function () {
-        makeCode();
+        //makeCode();
+        document.getElementById('qrcode-block').style.display = 'block';
+        document.querySelector('#qr-text').style.display = 'none';
     })
-
-    $('button#generate-btn').on('click', function() {
-        $('.input-bar').addClass('load');
-    });
 
     $('#qrcode').on('click', function() {
 
@@ -48,16 +58,22 @@ $(function() {
         $('#qrcode').empty();
         document.querySelector('.qrText').value = '';
     };
-    document.addEventListener("DOMContentLoaded", () => {
-        YaGames
-            .init()
-            .then(ysdk => {
-                console.log('Yandex SDK initialized');
-                window.ysdk = ysdk;
 
-                setLocale(ysdk.environment.i18n.lang);
-                console.log('Set locale', ysdk.environment.i18n.lang)
-            });
-    });
+    var resultContainer = document.getElementById('qr-reader-results');
+    var lastResult, countResults = 0;
+
+    function onScanSuccess(decodedText, decodedResult) {
+        if (decodedText !== lastResult) {
+            ++countResults;
+            lastResult = decodedText;
+            // Handle on success condition with the decoded message.
+            console.log(`Scan result ${decodedText}`, decodedResult);
+        }
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess);
+
 
 });

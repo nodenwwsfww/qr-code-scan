@@ -1,19 +1,13 @@
 // The lang our app first shows
 const localesData = {
   "ru": {
-    "app-title": "Генератор QR кодов",
-    "action-qr-text-placeholder": "Введите текст или URL",
-    "action-tap-on-qr-to-download": "Нажмите на QR-код для загрузки",
+    "app-title": "Сканер QR кодов",
   },
   "en": {
-    "app-title": "Code QR",
-    "action-qr-text-placeholder": "Type Text or URL",
-    "action-tap-on-qr-to-download": "Tap on QR Code to Download",
+    "app-title": "Scan QR Code",
   },
   "tr": {
-    "app-title": "QR kod üreteci",
-    "action-qr-text-placeholder": "Metin veya URL yazın",
-    "action-tap-on-qr-to-download": "İndirmek için QR Koduna dokunun",
+    "app-title": "QR Kodunu Tarayın",
   }
 };
 
