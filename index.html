@@ -41,21 +41,23 @@
             <h1 class="app-title" data-i18n-key="app-title">Scan QR Code</h1>
         </a>
         <div class="input-elements">
-            <div class="input-bar" style="margin-bottom: 50%;">
+            <div id="qrcode-container" style="display: none; align-items: center; justify-content: center;">
+                <div id="qrcode-block">
+                    <div id="qr-reader" style="width: 600px; height: 250px"></div>
+                    <div id="qr-reader-results"></div>
+                </div>
+            </div>
+            <div class="input-bar" style="margin-bottom: 50%;" id="camera-bar">
                 <input type="text" class="qrText" id="qr-text">
-                <button type="submit" id="generate-btn" class="generate-btn">
+                <button type="submit" id="generate-btn" class="generate-btn camera">
                     <img src = "./assets/camera.svg" alt="Camera icon" style="width: 100%; height: auto;"/>
                 </button>
             </div>
-            <div class="input-bar">
+            <div class="input-bar" id="folder-bar">
                 <input type="text" class="qrText">
-                <button type="submit" class="generate-btn">
+                <button type="submit" class="generate-btn folder">
                     <img src = "./assets/folder.svg" alt="Folder icon" style="width: 100%; height: auto;"/>
                 </button>
-            </div>
-            <div id="qrcode-block" style="display:none">
-                <div id="qr-reader" style="width:500px"></div>
-                <div id="qr-reader-results"></div>
             </div>
         </div>
 

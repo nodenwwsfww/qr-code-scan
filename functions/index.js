@@ -43,7 +43,7 @@ $(function() {
     $("#generate-btn").
     on("click", function () {
         //makeCode();
-        document.getElementById('qrcode-block').style.display = 'block';
+        // document.getElementById('qrcode-block').style.display = 'block';
         document.querySelector('#qr-text').style.display = 'none';
     })
 
@@ -75,5 +75,67 @@ $(function() {
         "qr-reader", { fps: 10, qrbox: 250 });
     html5QrcodeScanner.render(onScanSuccess);
 
+
+    const requestCameraBtn = document.getElementById('qr-reader__camera_permission_button')
+    const scanBtn = document.getElementById('qr-reader__dashboard_section_swaplink')
+    const qrCodeBlock = document.getElementById('qrcode-block');
+    const qrCodeContainer = document.getElementById('qrcode-container');
+    const folderBar = document.querySelector('#folder-bar');
+    const cameraBar = document.querySelector('#camera-bar');
+    let checkInterval;
+
+
+    function requestCameraPermissions() {
+        const clickEvent = new Event('click')
+        requestCameraBtn.dispatchEvent(clickEvent);
+    }
+
+    window.requestCameraPermissions = requestCameraPermissions;
+
+    function scanImage() {
+        const clickEvent = new Event('click')
+        scanBtn.dispatchEvent(clickEvent);
+    }
+
+    window.scanImage = scanImage;
+
+    const clickHideCallback = () => {
+        cameraBar.style.display = 'none'
+        folderBar.style.display = 'none'
+        qrCodeContainer.style.display = 'flex'
+    };
+    const hideImgAdv = () => {
+        try {
+            const imgAdv = [...document.querySelectorAll('img')].filter(img => {
+                return img.alt.includes("Info")
+            })[0];
+            if (imgAdv) imgAdv.style.display = 'none';
+        } catch (error) {
+
+        }
+    };
+
+    folderBar.addEventListener('click', () => {
+        clickHideCallback();
+        scanImage();
+        checkInterval = setInterval(() => {
+            hideImgAdv();
+            document.getElementById('qr-reader__camera_permission_button').style.display = 'none';
+        }, 50);
+    });
+    cameraBar.addEventListener('click', () => {
+        console.log('click')
+        clickHideCallback();
+        try {
+            requestCameraPermissions();
+        } catch(error) {
+            //console.error(error)
+        }
+        console.log('start interval')
+        checkInterval = setInterval(() => {
+            hideImgAdv();
+            document.getElementById('qr-reader__dashboard_section_swaplink').style.display = 'none';
+        }, 50);
+    });
 
 });
