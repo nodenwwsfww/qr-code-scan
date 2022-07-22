@@ -41,24 +41,44 @@
             <h1 class="app-title" data-i18n-key="app-title">Scan QR Code</h1>
         </a>
         <div class="input-elements">
-            <div id="qrcode-container" style="display: none; align-items: center; justify-content: center;">
-                <div id="qrcode-block">
-                    <div id="qr-reader" style="width: 600px; height: 250px"></div>
-                    <div id="qr-reader-results"></div>
+            <div class="container" style="flex-direction: column; display: flex">
+                <div id="qrcode-container" style="align-items: center; justify-content: center; display: none">
+                    <div id="qrcode-block" style="">
+                        <div id="qr-reader" style="width: 600px; height: 250px; margin-bottom: 50%"></div>
+                    </div>
                 </div>
             </div>
+            <img src = "./assets/back.png" class="back-arrow-camera" alt="Back icon" style="width: 40%; height: auto; display: none; margin-top: 10px;"/>
+            <div class="folder-behaviour" id="folder-behaviour" style="display: none;">
+                <div class="input-bar load" id="input-bar-old">
+                    <input type="text" class="qrText" id="qr-text" placeholder="Select img to scan">
+                    <button type="submit" id="generate-btn" class="generate-btn generate-btn-old">
+                        <svg viewBox="0 0 24 24" class="generate-btn-old-svg">
+                            <path fill="#191919" d="M3,11H5V13H3V11M11,5H13V9H11V5M9,11H13V15H11V13H9V11M15,11H17V13H19V11H21V13H19V15H21V19H19V21H17V19H13V21H11V17H15V15H17V13H15V11M19,19V15H17V19H19M15,3H21V9H15V3M17,5V7H19V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9V21H3V15M5,17V19H7V17H5Z" />
+                        </svg>
+                    </button>
+                </div>
+                <a href="" download="QR-Code" class="downloadCode">
+                    <div id="qrcode"></div>
+                    <p class="text-click-on-qr" style="display: none" data-i18n-key="action-tap-on-qr-to-download">Tap on QR Code to Download</p>
+                </a>
+                <img src = "./assets/back.png" id="back-arrow-folder" alt="Back icon" style="width: 40%; height: auto; display: none; margin-top: 10px;"/>
+            </div>
+
+
             <div class="input-bar" style="margin-bottom: 50%;" id="camera-bar">
-                <input type="text" class="qrText" id="qr-text">
-                <button type="submit" id="generate-btn" class="generate-btn camera">
+                <input type="text" class="qrText" >
+                <button type="submit" class="generate-btn camera" style="margin-top:2px;">
                     <img src = "./assets/camera.svg" alt="Camera icon" style="width: 100%; height: auto;"/>
                 </button>
             </div>
             <div class="input-bar" id="folder-bar">
-                <input type="text" class="qrText">
-                <button type="submit" class="generate-btn folder">
+                <input type="text" class="qrText" >
+                <button type="submit" class="generate-btn folder" style="margin-top:2px;">
                     <img src = "./assets/folder.svg" alt="Folder icon" style="width: 100%; height: auto;"/>
                 </button>
             </div>
+
         </div>
 
         <select data-i18n-switcher class="locale-switcher" style="display: none"></select>
