@@ -52,6 +52,7 @@ $(function() {
     const scanBtn = () => document.getElementById('qr-reader__dashboard_section_swaplink');
     const browseImgBtn = () => document.getElementById('qr-reader__filescan_input');
     const backArrowCamera = () => document.querySelector('.back-arrow-camera');
+    window.backArrowCamera = backArrowCamera;
     const qrCodeBlock = document.getElementById('qrcode-block');
     const qrCodeContainer = () => document.getElementById('qrcode-container');
     const folderBehaviour = document.getElementById('folder-behaviour');
@@ -60,6 +61,7 @@ $(function() {
 
     const stopScanningBtn = () => document.querySelectorAll('#qr-reader__dashboard_section_csr>span>button')[1];
     let checkInterval;
+    let checkVideoInterval;
     let currentBackArrow;
 
     //const resultContainer = document.getElementById('qr-reader-results');
@@ -79,7 +81,7 @@ $(function() {
     function initQrScanner() {
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "qr-reader",
-            { fps: 10, qrbox: {width: 600, height: 250} },
+            { fps: 10, qrbox: {width: 210, height: 100} },
             /* verbose= */ false);
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         window.qrScanner = html5QrcodeScanner
@@ -87,25 +89,32 @@ $(function() {
 
 
     function requestCameraPermissions() {
+        console.log('requestCameraPermissions')
         const clickEvent = new Event('click')
         requestCameraBtn().dispatchEvent(clickEvent);
+
+        try {
+            if (backArrowCamera()) {
+                console.log('backArrowCamera yeah')
+                const dashBoard = document.getElementById("qr-reader__dashboard");
+                backArrowCamera().style.display = 'flex';
+                console.log(backArrowCamera());
+                //backArrowCamera().closest('div').insertAdjacentHTML('beforebegin', backArrowCamera().innerHTML);
+                dashBoard.appendChild(backArrowCamera());
+                backArrowCamera().style.display = 'flex';
+                backArrowCamera().style.marginLeft = '25%';
+            }
+        } catch(error) {
+            console.error(error)
+        }
         hideExtraSelectCameraText();
-        backArrowCamera().style.display = 'flex';
-        const dashBoard = document.getElementById("qr-reader__dashboard");
-        //backArrowCamera().closest('div').insertAdjacentHTML('beforebegin', backArrowCamera().innerHTML);
-        dashBoard.appendChild(backArrowCamera());
-        backArrowCamera().style.marginLeft = '25%';
 
-        const startScanningBtn = document.querySelector('button[textContent="Start Scanning"]');
-
-        console.log('add event listener')
-
-        //if (startScanningBtn) startScanningBtn.dispatchEvent(clickEvent);
     }
 
     window.requestCameraPermissions = requestCameraPermissions;
 
     function scanImage() {
+        console.log('scanImage')
         const clickMouseEvent = new MouseEvent('click', {bubbles: true});
         $('input[type=file]').change(function () {
             const outputFileName = document.getElementById('qr-text');
@@ -175,21 +184,23 @@ $(function() {
     cameraBar.addEventListener('click', () => {
         console.log('click')
         try {
+            initQrScanner();
             folderBehaviour.style.display = 'none'
             qrCodeContainer().style.display = 'flex';
             toggleExtra();
-            document.querySelector('#root').style.display = 'none';
+            document.querySelector('.input-elements').style.display = 'none';
             requestCameraPermissions();
         } catch(error) {
             //console.error(error)
         }
         console.log('start interval')
+        let isVideoRun = false;
         checkInterval = setInterval(() => {
             hideImgAdv();
             hideExtraSelectCameraText();
             if (document.getElementById('qr-reader__dashboard_section_csr')) document.getElementById('qr-reader__dashboard_section_csr').style.display = 'none'
             if (document.querySelector('video')) {
-                document.querySelector('#root').style.display = 'block';
+                document.querySelector('.input-elements').style.display = 'block';
                 document.querySelector('video').style.width = '600px';
 
                 backArrowCamera().onclick = function (e) {
@@ -209,14 +220,20 @@ $(function() {
                         folderBar.style.display = 'flex';
                         initQrScanner();
                         document.querySelector('.container').style.display = 'none'
-                        //scanImage();
                     }
                 };
             } else {
-                document.querySelector('#root').style.display = 'none';
+                if (!isVideoRun) {
+                    const startScanningBtn = document.querySelectorAll('#qr-reader__dashboard_section_csr>span')[1]?.querySelector('button');
+
+                    console.log('add event listener')
+                    const clickEvent = new Event('click')
+                    if (startScanningBtn) startScanningBtn.dispatchEvent(clickEvent);
+                    isVideoRun = true;
+                }
+                document.querySelector('.input-elements').style.display = 'none';
             }
-        }, 20);
+        }, 100);
     });
-    initQrScanner();
 
 });
