@@ -9,10 +9,6 @@ $(function() {
             console.log('Set locale', ysdk.environment.i18n.lang)
         });
 
-/*    setTimeout(() => {
-        setLocale(window.YandexGamesSDKEnvironment.i18n.lang)
-    }, 0);*/
-
     function makeCode () {
         if ($('.qrText').val() != '') {
             var elText = document.getElementById("qr-text");
@@ -38,9 +34,6 @@ $(function() {
         }
     }
 
-    // makeCode();
-
-
     window.onunload = function () {
         $('#qrcode').empty();
         document.querySelector('.qrText').value = '';
@@ -63,20 +56,6 @@ $(function() {
     let checkInterval;
     let checkVideoInterval;
     let currentBackArrow;
-
-    //const resultContainer = document.getElementById('qr-reader-results');
-
-    function onScanSuccess(decodedText, decodedResult) {
-        // handle the scanned code as you like, for example:
-        //resultContainer.style.display = 'flex';
-        //console.log(`Code matched = ${decodedText}`, decodedResult);
-    }
-
-    function onScanFailure(error) {
-        // handle scan failure, usually better to ignore and keep scanning.
-        // for example:
-        //console.warn(`Code scan error = ${error}`);
-    }
 
     function initQrScanner() {
         let html5QrcodeScanner = new Html5QrcodeScanner(
@@ -191,7 +170,7 @@ $(function() {
             document.querySelector('.input-elements').style.display = 'none';
             requestCameraPermissions();
         } catch(error) {
-            //console.error(error)
+            console.error(error)
         }
         console.log('start interval')
         let isVideoRun = false;
@@ -225,8 +204,6 @@ $(function() {
             } else {
                 if (!isVideoRun) {
                     const startScanningBtn = document.querySelectorAll('#qr-reader__dashboard_section_csr>span')[1]?.querySelector('button');
-
-                    console.log('add event listener')
                     const clickEvent = new Event('click')
                     if (startScanningBtn) startScanningBtn.dispatchEvent(clickEvent);
                     isVideoRun = true;
