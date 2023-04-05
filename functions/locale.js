@@ -66,25 +66,13 @@ async function setLocale(newLocale) {
   localStorage.setItem("locale", newLocale);
 }
 
-// Retrieves translations JSON object for the given
-// lang over the network
-// async function fetchTranslationsFor(newLocale) {
-//   const response = await fetch(`/lang/${newLocale}.json`);
-//   return await response.json();
-// }
 
-// Replace the inner text of all elements with the
-// data-i18n-key attribute to translations corresponding
-// to their data-i18n-key
 function translatePage() {
   document
     .querySelectorAll("[data-i18n-key]")
     .forEach((el) => translateElement(el));
 }
 
-// Replace the inner text of the given HTML element
-// with the translation in the active lang,
-// corresponding to the element's data-i18n-key
 function translateElement(element) {
   const key = element.getAttribute("data-i18n-key");
 
